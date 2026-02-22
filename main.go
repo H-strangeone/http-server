@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"io"
 	"log"
@@ -13,18 +14,19 @@ func main(){
 		log.Fatal("Error creating file:", err)
 	}
 	defer f.Close() 
+	reader:= bufio.NewReader(f)
 	for {
-		data:= make([]byte, 8)
-		n, err := f.Read(data)
+		// data:= make([]byte,1024)
+		// _,_ := f.Read(data)
+		line, err:= reader.ReadBytes('\n')
 		if err != nil {
 			break
 		}
 		if err == io.EOF {
 			break
 		}
-		if n>0{
-			fmt.Printf("Read %d bytes: %s\n", n, string(data[:n]))	
-		}
+		fmt.Printf("%s", string(line))
+		// fmt.Printf("%s", string(data[:n]))	
 	}
 
 }
